@@ -14,6 +14,7 @@ Training:
   "python train.py -c configs/train_2.json"
 
 Testing/Evaluating the model:
+
   "python evaluate.py -c svhn/config.json -w svhn/weights.h5"
 
 
