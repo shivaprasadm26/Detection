@@ -10,18 +10,18 @@
         "no_object_scale" : 	1.0
     },
     "pretrained" : {
-        "full":   				"weights.h5"
+        "full":   				""
     },
     "train" : {
-        "actual_epoch":         10,
-        "train_image_folder":   "filtered_person/train/images/",
-        "train_annot_folder":   "filtered_person/train/annotations/",
+        "actual_epoch":         20,
+        "train_image_folder":   "/content/drive/My Drive/jersey_number_detector/person_cropped_set_14_15_16_labelled/images/",
+        "train_annot_folder":   "/content/drive/My Drive/jersey_number_detector/person_cropped_set_14_15_16_labelled/annotations/",
         "train_times":          5,
-        "valid_image_folder":   "filtered_person/train/images/",
-        "valid_annot_folder":   "filtered_person/train/annotations/",
+        "valid_image_folder":   "/content/drive/My Drive/jersey_number_detector/person_cropped_set_14_15_16_labelled/images/",
+        "valid_annot_folder":   "/content/drive/My Drive/jersey_number_detector/person_cropped_set_14_15_16_labelled/annotations/",
         "valid_times":          1,
         "batch_size":           4,
-        "learning_rate":        1e-4,
+        "learning_rate":        1e-6,
         "saved_folder":   		"svhn",
         "jitter":				false,
         "first_trainable_layer": "input_1",
