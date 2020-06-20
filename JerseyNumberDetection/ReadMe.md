@@ -17,4 +17,5 @@ Testing/Evaluating the model:
 
   "python evaluate.py -c svhn/config.json -w svhn/weights.h5"
 
-
+                   or
+use JerseyNumberDetection.ipynb notebook to run all 
