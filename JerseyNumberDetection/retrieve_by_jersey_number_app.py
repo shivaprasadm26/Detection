@@ -109,7 +109,8 @@ def retrieve_by_jersey_number():
     in_json = request.get_json()
     query_jersey_number = in_json['query_jersey_number']
     SearchSetParentPath = in_json['SearchSetParentPath']
-    matched_list, user_folder = JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=2)
+    NumImages = in_json['NumImages']
+    matched_list, user_folder = JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=NumImages)
     out_message = " {} images are copied to {} successfully".format(len(matched_list),user_folder)
 
     return out_message
