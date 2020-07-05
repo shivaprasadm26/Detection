@@ -4,7 +4,6 @@ Created on Sun Jun 21 14:36:56 2020
 
 @author: user
 """
-from predict_jersey_number import *
 import glob
 import os
 import pickle
@@ -13,6 +12,8 @@ import time
 
 from flask import request
 from flask import Flask
+
+import argparse
 
 
 app = Flask(__name__)
@@ -77,7 +78,7 @@ def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=10):
     matched_files.sort(key = lambda x:x[1], reverse = True)
     print("Found {} images with jersey number {}".format(len(matched_files),query_jersey_number))
     print("==============>>")
-    if len(matched_list) > NumImages:
+    if len(matched_files) > NumImages:
         matched_files = matched_files[:NumImages]
    
     
@@ -115,13 +116,20 @@ def retrieve_by_jersey_number():
 
     return out_message
 
-if __name__ == '__main__':
-    app.run()
-    
-#
 #if __name__ == '__main__':
-#    
-#    SearchSetParentPath = "D:\Projects\RetrieveByJerseyNumber\data\person_cropped_set_14_15_16_labelled\images"
-#    query_jersey_number = 14
-#    
-#    matched_list,user_folder = JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=2)
+#    app.run()
+    
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='retrieve by jersey number.')
+    parser.add_argument("-q","--query_no", type=int, help='Query Jersey Number', required=True)
+    parser.add_argument("-s","--search_dir", type=str, help='search set path', required = True)
+    parser.add_argument("-n","--no_images", type=int, help='Number of images to be retrieved', default = 10)
+    args = parser.parse_args()
+    query_jersey_number = args.query_no
+    SearchSetParentPath = args.search_dir
+    NumImages = args.no_images
+    from predict_jersey_number import get_digits_boxes
+
+    matched_list,user_folder = JerseyNumberRetrieve(query_jersey_number=query_jersey_number,SearchSetParentPath =SearchSetParentPath,NumImages=NumImages)
