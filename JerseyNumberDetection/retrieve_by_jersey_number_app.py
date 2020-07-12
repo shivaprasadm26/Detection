@@ -15,6 +15,8 @@ from flask import Flask
 
 import argparse
 
+import os
+import glob
 
 app = Flask(__name__)
 
@@ -25,7 +27,7 @@ def hello():
 
     
 
-def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=10):
+def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,DestPath,NumImages=10):
     '''
     function to get list of images containing players with jersey number same as query_jersey_number
 
@@ -45,12 +47,13 @@ def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=10):
         filenames.extend(glob.glob(SearchSetParentPath+ "/*.tif", recursive = False))
         filenames.extend(glob.glob(SearchSetParentPath+ "/*.tiff", recursive = False))
         filenames.extend(glob.glob(SearchSetParentPath+ "/*.JPEG", recursive = False))
+
         reference_detections = []
         for count in range(len(filenames)):
             
             image_path = filenames[count]
             image_name = (image_path.replace('\\','/')).split('/')[-1]
-            detections = get_digits_boxes(filenames[count],show_img=False,save_img=False)
+            detections = detect_person_jersey_no(filenames[count])
             out_dict = {}
             out_dict['path'] = image_path
             out_dict['name'] = image_name
@@ -69,9 +72,9 @@ def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=10):
         file_name = detection['path']
         jersey_numbers = detection['detections'][0]
         confidence = detection['detections'][1]
-        
         for j_count in range(len(jersey_numbers)):
             jersey_number=jersey_numbers[j_count]
+#             print("jersy numbers",jersey_number)
             if jersey_number == query_jersey_number:
                 matched_files.append((file_name,confidence[j_count]))       
     
@@ -83,8 +86,8 @@ def JerseyNumberRetrieve(query_jersey_number,SearchSetParentPath,NumImages=10):
    
     
     #dump the images into user folder with folder name same as jersey number
-    
-    user_folder = os.path.join(SearchSetParentPath,str(query_jersey_number))
+    DestPath = DestPath.replace("\\","/")
+    user_folder = os.path.join(DestPath,str(query_jersey_number))
     print("Retrieving top {} images to {} directory".format(len(matched_files), user_folder))
     print("===================>>")
 
@@ -126,10 +129,12 @@ if __name__ == '__main__':
     parser.add_argument("-q","--query_no", type=int, help='Query Jersey Number', required=True)
     parser.add_argument("-s","--search_dir", type=str, help='search set path', required = True)
     parser.add_argument("-n","--no_images", type=int, help='Number of images to be retrieved', default = 10)
+    parser.add_argument("-d","--dest_path", type=str, help='destination path to dump output images', required = True)
     args = parser.parse_args()
     query_jersey_number = args.query_no
     SearchSetParentPath = args.search_dir
     NumImages = args.no_images
-    from predict_jersey_number import get_digits_boxes
+    DestPath = args.dest_path
+    from predict_jersey_number import detect_person_jersey_no
 
-    matched_list,user_folder = JerseyNumberRetrieve(query_jersey_number=query_jersey_number,SearchSetParentPath =SearchSetParentPath,NumImages=NumImages)
+    matched_list,user_folder = JerseyNumberRetrieve(query_jersey_number=query_jersey_number,SearchSetParentPath =SearchSetParentPath,NumImages=NumImages,DestPath=DestPath)
