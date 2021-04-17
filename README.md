@@ -1,5 +1,9 @@
 # Welcome to Image Retrieval System
+## Download Yolo pretrained model from this link 
+
+https://drive.google.com/file/d/10lX6D_dRcg7xhCx6mTUFv8AGTax_Onpl/view?usp=sharing
 ## Steps:
+
 1. Copy the search dataset to a folder
 2. copy the query images to another folder
 3. Launch the application (presently with python). Will soon release an exe file
