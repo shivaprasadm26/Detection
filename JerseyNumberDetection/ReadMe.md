@@ -15,14 +15,9 @@ python retrieve_by_jersey_number_app.py -q QUERY_NO -s SEARCH_DIR -n NO_IMAGES
 
 ## Training:
 
-### Download labelled dataset from https://drive.google.com/drive/folders/18CaqIGl1bUV9yuGEsVLcTzqwqmjzoE0F?usp=sharing and update the config files configs/train_1.json and configs/train_2.json
-
-### run the command 
-
-  "python train.py -c configs/train_1.json"
-  
-### after completion run the next command 
-
+1.run the command 
+  "python train.py -c configs/train_1.json" 
+2.after completion run the next command 
   "python train.py -c configs/train_2.json"
 
 ## Testing/Evaluating the model:

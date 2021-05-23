@@ -22,7 +22,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 detector = ObjectDetection()
 custom = detector.CustomObjects(person=True)
 detector.setModelTypeAsYOLOv3()
-detector.setModelPath("yolo.h5")
+detector.setModelPath(os.path.join(yolo.PROJECT_ROOT, "yolo.h5"))
 detector.loadModel()
 print("detector loaded")
 
@@ -159,16 +159,22 @@ def get_digits_boxes_img(image):
 
 
 def detect_person_jersey_no(img_path):
-    detections = detector.detectCustomObjectsFromImage(custom_objects=custom, input_image=img_path, minimum_percentage_probability=70, extract_detected_objects=False)
+    #print(img_path)
     img = cv2.imread(img_path)
+    detections = detector.detectCustomObjectsFromImage(custom_objects=custom, input_image=img_path, output_image_path="out.jpg", minimum_percentage_probability=70, extract_detected_objects=False)
+    
     jersey_numbers=conf_score=[]
     for det in detections:
         bb = det['box_points']
         cropped_im = img[bb[1]:bb[3],bb[0]:bb[2]]
+        #cv2.imshow("cropped",cropped_im)
+        #cv2.waitKey()
+        #cv2.destroyAllWindows()
         out = get_digits_boxes_img(cropped_im)
-    #     print(out)
+
+        print(out)
         if len(out[0]):
-            print(out)
+            #print(out)
             jersey_numbers.extend(out[0])
             conf_score.extend(out[1])
 
@@ -187,6 +193,7 @@ def detect_person_jersey_no(img_path):
 #    jersey_numbers,conf_score,labels, boxes= get_digits_boxes(img_path,show_img=True,save_img=True)
 
 #np.linalg.norm(np.array(centers[0])-np.array(centers[1]))
+
 
 
 
