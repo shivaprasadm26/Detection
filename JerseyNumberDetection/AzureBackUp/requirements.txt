@@ -54,7 +54,7 @@ numpy==1.18.1
 opencv-python==4.1.2.30
 openpyxl==2.6.1
 pickleshare==0.7.5
-Pillow==5.4.1
+Pillow==9.0.1
 psutil==5.6.1
 PyQt5==5.14.1
 PyQt5-sip==12.7.0
